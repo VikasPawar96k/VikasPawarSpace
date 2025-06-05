@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MH.12 SG.5809</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('input[type="text"]').forEach(input => {
+                input.addEventListener("input", function() {
+                    this.value = this.value.toUpperCase();
+                });
+            });
+        });
+    </script>
+    <!-- Title logo -->
+    <link rel="icon" href="Assets/LOGOVIKASWHITE.svg" type="image/icon type">
+    
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/caedfdc778.js" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (document.referrer.indexOf(window.location.origin) === -1) {
+                // Redirect if the user directly accesses the page
+                window.location.href = "index.html";
+            }
+        });
+    </script>
+    
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        .container { max-width: 800px; margin: auto; }
+        .form-group { margin-bottom: 15px; }
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 10px; text-align: center; }
+        th { background-color: #007bff; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="d-flex align-items-center">
+                    <img src="Assets/PETROL.svg" alt="MainLogo" height="120" width="100" class="mt-4" />
+                    <div class="ml-2 mt-2">
+                        <div class=" text-black fs-5 fw-bold mt-4">
+                            <span class="fw-bolder">
+           
+                                
+            <br />
+                            PETROL EXPENSES OF PULSAR 180
+                                <br />MH.12 SG.5809
+                            </span>
+   
+                           
+   
+                        </div>
+                          
+                    </div>
+   
+  
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-3 mt-2">
+                <div class="text-end">
+                </div>
+   
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="container">
+        <h2 class="mb-4">🚀  BIKE PETROL EXPENSES</h2>
+
+        <!-- Form -->
+        <form id="dataForm" class="row g-3">
+            <input type="hidden" id="rowId">  <!-- Hidden input for editing records -->
+
+            <div class="row">
+                <div class="col-md-4 form-group">
+                    <label class="fw-bold">KiloMeter Reading:</label>
+                    <input type="text" id="kmreading" class="form-control" placeholder="K.M Reading" required>
+                </div>
+                
+                <div class="col-md-4 form-group">
+                    <label class="fw-bold">Petrol Filled Cost:</label>
+                    <input type="text" id="petrol" class="form-control" placeholder="Petrol Filled (Cost)" required>
+                </div>
+                <div class="col-md-4"> 
+                    <label class="fw-bold">Payee Name:</label>
+                    <input type="text" id="payment" class="form-control" placeholder="Payee Name" required>
+                </div>
+            </div>
+            <hr class="border border-2 border-primary"> 
+            <div class="row text-center">  
+                <div class="col-md-4"></div>
+                <div class="col-4 text-center">
+                <button type="submit" class="btn btn-success w-100">Submit</button>
+            </div>
+        </div>
+          
+        </form>
+<hr class="border border-2 border-danger"> 
+        <!-- Display Data -->
+        <h2 class="mt-4">📊 PETROL EXPENSES RECORDS</h2>
+        <button onclick="fetchData()" class="btn btn-primary mb-3">Refresh Data</button>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="bg-primary text-white">
+                    <tr>
+                        <th>ID</th>
+                        <th>K.M READING</th>
+                        <th>PETROL COST</th>
+                        <th>PAYEE NAME</th>
+                        <th>TIMESTAMP</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody id="dataTable"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+       const scriptURL = "https://script.google.com/macros/s/AKfycbzBgXq6wF84-aAwSDAEofPME3Bgmt9coHCAChJ_IUZ17oTQHdlUNNromScJ5-YDAZtaHw/exec";
+
+
+        document.getElementById("dataForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let formData = {
+                id: document.getElementById("rowId").value, 
+                kmreading: document.getElementById("kmreading").value,
+                petrol: document.getElementById("petrol").value,
+                payment: document.getElementById("payment").value
+            };
+
+            fetch(scriptURL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            }).then(() => {
+                alert("✅ Data submitted successfully!");
+                document.getElementById("dataForm").reset();
+                document.getElementById("rowId").value = "";
+                setTimeout(fetchData, 2000);
+            }).catch(error => console.error("❌ Error:", error));
+        });
+
+        function fetchData() {
+            fetch(scriptURL)
+                .then(response => response.json())
+                .then(data => {
+                    let table = document.getElementById("dataTable");
+                    table.innerHTML = "";
+                    data.forEach((row, index) => {
+                        let newRow = `<tr>
+                            <td>${row.recordid}</td>
+                            <td>${row.kmreading}</td>
+                            <td>${row.petrol}</td>
+                            <td>${row.payment}</td>
+                            <td>${row.timestamp}</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm" onclick="editRow(${row.id}, '${row.kmreading}', '${row.petrol}', '${row.payment}')">Edit</button>
+                            </td>
+                        </tr>`;
+                        table.innerHTML += newRow;
+                    });
+                })
+                .catch(error => console.error("❌ Error fetching data:", error));
+        }
+
+        function editRow(id, kmreading, petrol, payment) {
+            document.getElementById("rowId").value = recordid;
+            document.getElementById("kmreading").value = kmreading;
+            document.getElementById("petrol").value = petrol;
+            document.getElementById("payment").value = payment;
+        }
+
+        fetchData();
+    </script>
+</body>
+<footer class="footer">
+    <div class="container-fluid mt-2">
+     
+        <a href="Index.html" class=" fw-bold btn-danger">HOME</a>
+            <hr />
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="text-center">
+                     
+                        <br />
+            <img src="Assets/LOGOVIKAS.svg" alt="Logo 1" style="height: 100px;" />
+                      <br />
+                           Copyright &copy; 2025-26<br />
+                        Developed and Maintained by:
+               
+                        Vikas Anant Pawar
+                <br />
+                        All Rights Reserved.
+                    </p>
+                </div>
+            </div>
+        
+    </div>
+</footer>
+     <!--Right Click Disable S-->
+     <script type="text/javascript">  
+        var message = "Not Allowed!";
+ 
+        function click(event) {
+            if (event.which == 2 || event.which == 3) {
+                alert(message);
+                return false;
+            }
+        }
+        document.addEventListener("mousedown", click);
+        document.oncontextmenu = new Function("return false");
+    </script>
+</html>
