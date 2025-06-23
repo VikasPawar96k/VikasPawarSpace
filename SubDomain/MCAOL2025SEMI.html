@@ -26,6 +26,49 @@
     <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+
+    <!--Session Starts-->
+    <script>
+        // Function to set session start time
+        function startSession() {
+            const now = new Date().getTime();
+            sessionStorage.setItem('sessionStart', now);
+        }
+
+        // Function to check if session is valid
+        function isSessionValid() {
+            const sessionStart = sessionStorage.getItem('sessionStart');
+            if (!sessionStart) return false;
+
+            const now = new Date().getTime();
+            const sessionDuration = 10 * 60 * 1000; // 10 minutes in milliseconds
+            return (now - sessionStart) < sessionDuration;
+        }
+
+        // Function to check session and redirect if expired
+        function checkSession() {
+            if (!isSessionValid()) {
+                sessionStorage.removeItem('sessionStart');
+                document.body.innerHTML = '<h1>Session Expired</h1><p>Please use the original link to access this page again.</p>';
+                // Optionally redirect to an expired page or original link
+                setTimeout(() => {
+                    window.location.href = 'https://example.com/session-expired.html';
+                }, 1000);
+            }
+        }
+
+        // On page load, check session
+        window.onload = function() {
+            if (!sessionStorage.getItem('sessionStart')) {
+                startSession(); // Start new session if none exists
+            }
+            checkSession();
+        };
+
+        // Continuously check session every second
+        setInterval(checkSession, 1000);
+    </script>
+    <!--Session Ends-->
 </head>
 
          <!--Header Starts-->
