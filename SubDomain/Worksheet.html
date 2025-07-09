@@ -149,20 +149,20 @@
       const page = pdfDoc.getPages()[0];
 
       // Draw combined dates
-      page.drawText(`${fromdate}     ${todate}`, {
+      page.drawText(`${fromdate}           ${todate}`, {
         x: 100,
         y: 490,
-        size: 14,
+        size: 12,
         font: standardFont,
         color: PDFLib.rgb(0, 0, 0)
       });
 
       // Draw weekday text (English, wrapped)
-      drawWrappedText(page, `Monday: ${monday}`, 100, 450, 100, 18, standardFont, 12, PDFLib.rgb(0, 0, 0));
-      drawWrappedText(page, `Tuesday: ${tuesday}`, 100, 400, 100, 18, standardFont, 12, PDFLib.rgb(0, 0, 0));
-      drawWrappedText(page, `Wednesday: ${wednesday}`, 100, 350, 100, 18, standardFont, 12, PDFLib.rgb(0, 0, 0));
-      drawWrappedText(page, `Thursday: ${thursday}`, 100, 300, 100, 18, standardFont, 12, PDFLib.rgb(0, 0, 0));
-      drawWrappedText(page, `Friday: ${friday}`, 100, 250, 100, 18, standardFont, 12, PDFLib.rgb(0, 0, 0));
+      drawWrappedText(page, `${monday}`, 100, 450, 100, 18, standardFont, 12, PDFLib.rgb(0, 0, 0));
+      drawWrappedText(page, `${tuesday}`, 100, 400, 100, 18, standardFont, 12, PDFLib.rgb(0, 0, 0));
+      drawWrappedText(page, `${wednesday}`, 100, 350, 100, 18, standardFont, 12, PDFLib.rgb(0, 0, 0));
+      drawWrappedText(page, `${thursday}`, 100, 300, 100, 18, standardFont, 12, PDFLib.rgb(0, 0, 0));
+      drawWrappedText(page, `${friday}`, 100, 250, 100, 18, standardFont, 12, PDFLib.rgb(0, 0, 0));
 
       // Draw current Marathi date
       const now = new Date();
