@@ -1,0 +1,8 @@
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (document.referrer.indexOf(window.location.origin) === -1) {
+            // Redirect if the user directly accesses the page
+            window.location.href = "Index.html";
+        }
+    });
+</script>

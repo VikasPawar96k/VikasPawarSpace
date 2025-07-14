@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<districts>
+  <district name="MUMBAI SOUTH">
+    <center code="1151">SOPHIA COLLEGE FOR WOMEN</center>
+  </district>
+  <district name="MUMBAI WEST">
+    <center code="1251">Prahladrai Dalmia Lions College Of Commerce &amp; Economics</center>
+  </district>
+  <district name="MUMBAI NORTH">
+    <center code="1351">Lakshya Prep High School and Jr. College Chembur</center>
+  </district>
+  <district name="RAIGAD">
+    <center code="1451">J.S.M. College</center>
+  </district>
+  <district name="THANE">
+    <center code="1551">Adarsh Shikshan Mandal Ideal College Of Pharmacy &amp; Research</center>
+    <center code="1552">DEVRAM LAXMAN BHOIR DEGREE COLLEGE OF ARTS, SCIENCE AND COMMERCE</center>
+  </district>
+  <district name="PALGHAR">
+    <center code="1651">Yeshwantrao Chaphekar College Of Commerce &amp; Management</center>
+  </district>
+  <district name="PUNE">
+    <center code="2151">Nova Consultancy Services - Logic Labs Online Examination Centre</center>
+  </district>
+  <district name="AHILYANAGAR">
+    <center code="2251">Shri Chhatrapati Shivaji Maharaj College Nepti</center>
+  </district>
+  <district name="SOLAPUR">
+    <center code="2351">Shree Siddeshwar Women's College Of Engineering</center>
+  </district>
+  <district name="NASHIK">
+    <center code="3151">MET Bhujbal Knowledge City</center>
+    <center code="3152">ATT Highschool And Junior College</center>
+  </district>
+  <district name="DHULE">
+    <center code="3251">Bharti Multipurpose Trust</center>
+  </district>
+  <district name="JALGAON">
+    <center code="3351">G H Raisoni Junior College</center>
+  </district>
+  <district name="KOLHAPUR">
+    <center code="4151">New Institute of Technology</center>
+  </district>
+  <district name="SATARA">
+    <center code="4251">Sawkar Science College Panmalewadi, Satara</center>
+  </district>
+  <district name="SANGLI">
+    <center code="4351">Walchand College Of Engineering</center>
+  </district>
+  <district name="RATNAGIRI">
+    <center code="4451">College of Fisheries, Ratnagiri</center>
+  </district>
+  <district name="SINDHUDURG">
+    <center code="4551">Shri Pancham Khemraj Mahavidyalaya Sawantwadi</center>
+  </district>
+  <district name="CHHATRAPATI SAMBHAJINAGAR">
+    <center code="5151">Poorva Institute Of Career Development</center>
+  </district>
+  <district name="JALANA">
+    <center code="5251">J.E.S. College</center>
+  </district>
+  <district name="BEED">
+    <center code="5351">Dwarkadas Mantri Rajasthani Vidyalaya</center>
+  </district>
+  <district name="PARABHANI">
+    <center code="5451">DYA Mohini Kala Mahavidyalay</center>
+  </district>
+  <district name="HINGOLI">
+    <center code="5551">MIT College Of Computer Science &amp; IT</center>
+  </district>
+  <district name="AMRAVATI">
+    <center code="6151">Sipna College of Engineering and Technology, Amravati</center>
+  </district>
+  <district name="BULDHANA">
+    <center code="6251">Ratnaprabha Technical College</center>
+  </district>
+  <district name="AKOLA">
+    <center code="6351">Agricultural Research Information System (ARIS) Cell</center>
+  </district>
+  <district name="WASHIM">
+    <center code="6451">District Institute of Education &amp; Training</center>
+  </district>
+  <district name="YAVATMAL">
+    <center code="6551">AI Technology Online Exam Center</center>
+    <center code="6552">Babasaheb Naik College Of Engineering</center>
+  </district>
+  <district name="NAGPUR">
+    <center code="7151">Adarsh Sanskar Vidyalaya &amp; Jr. College</center>
+  </district>
+  <district name="BHANDARA">
+    <center code="7251">N P Kasturba High School &amp; Jr. College</center>
+  </district>
+  <district name="GONDIYA">
+    <center code="7351">Manohar Municipal Higher Secondary School, Gondia</center>
+  </district>
+  <district name="WARDHA">
+    <center code="7451">Gandhigram College, Wardha</center>
+  </district>
+  <district name="CHANDRAPUR">
+    <center code="7551">Shri Sai Polytechnic</center>
+  </district>
+  <district name="GADCHIROLI">
+    <center code="7651">Z P High School Gadchiroli</center>
+  </district>
+  <district name="LATUR">
+    <center code="8151">Technosoft Digital Space</center>
+  </district>
+  <district name="DHARASHIV">
+    <center code="8251">Ubiety Digital Zone</center>
+  </district>
+  <district name="NANDED">
+    <center code="8351">Dnyandeep Shikshan Prasarak Mandal</center>
+  </district>
+</districts>

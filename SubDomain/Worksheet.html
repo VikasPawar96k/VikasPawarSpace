@@ -36,11 +36,11 @@
     <div class="row">
       <div class="col-md-6">
         <label>पासून तारीख (From Date):</label>
-        <input type="text" class="form-control" id="fromdate"  required>
+        <input type="text" class="form-control" id="fromdate" required>
       </div>
       <div class="col-md-6">
         <label>पर्यंत तारीख (To Date):</label>
-        <input type="text" class="form-control" id="todate"  required>
+        <input type="text" class="form-control" id="todate" required>
       </div>
     </div>
 
@@ -49,26 +49,26 @@
     <div class="row">
       <div class="col-md-4">
         <label>Monday:</label>
-        <textarea class="form-control" id="monday" rows="3" required></textarea>
+        <textarea class="form-control" id="monday" rows="3" required maxlength="264"></textarea>
       </div>
       <div class="col-md-4">
         <label>Tuesday:</label>
-        <textarea class="form-control" id="tuesday" rows="3" required></textarea>
+        <textarea class="form-control" id="tuesday" rows="3" required maxlength="264"></textarea>
       </div>
       <div class="col-md-4">
         <label>Wednesday:</label>
-        <textarea class="form-control" id="wednesday" rows="3" required></textarea>
+        <textarea class="form-control" id="wednesday" rows="3" required maxlength="264"></textarea>
       </div>
     </div>
 
     <div class="row mt-3">
       <div class="col-md-6">
         <label>Thursday:</label>
-        <textarea class="form-control" id="thursday" rows="3" required></textarea>
+        <textarea class="form-control" id="thursday" rows="3" required maxlength="264"></textarea>
       </div>
       <div class="col-md-6">
         <label>Friday:</label>
-        <textarea class="form-control" id="friday" rows="3" required></textarea>
+        <textarea class="form-control" id="friday" rows="3" required maxlength="264"></textarea>
       </div>
     </div>
 
@@ -81,14 +81,16 @@
 </div>
 
 <script>
-  function drawWrappedText(page, text, x, yStart, maxLength, lineHeight, font, fontSize, color) {
+  function drawWrappedText(page, text, x, yStart, maxWidth, lineHeight, font, fontSize, color) {
     const words = text.split(' ');
     let line = '';
     let y = yStart;
 
     for (let i = 0; i < words.length; i++) {
       const testLine = line + words[i] + ' ';
-      if (testLine.length > maxLength) {
+      const textWidth = font.widthOfTextAtSize(testLine, fontSize);
+
+      if (textWidth > maxWidth) {
         page.drawText(line.trim(), {
           x: x,
           y: y,
@@ -114,19 +116,20 @@
     }
   }
 
-  document.getElementById("pdfForm").addEventListener("submit", async function(e) {
+  document.getElementById("pdfForm").addEventListener("submit", async function (e) {
     e.preventDefault();
 
     const statusEl = document.getElementById("status");
     statusEl.textContent = "Processing...";
 
-    const fromdate = document.getElementById("fromdate").value;
-    const todate = document.getElementById("todate").value;
-    const monday = document.getElementById("monday").value;
-    const tuesday = document.getElementById("tuesday").value;
-    const wednesday = document.getElementById("wednesday").value;
-    const thursday = document.getElementById("thursday").value;
-    const friday = document.getElementById("friday").value;
+    // Get and clean input (remove newlines)
+    const fromdate = document.getElementById("fromdate").value.trim();
+    const todate = document.getElementById("todate").value.trim();
+    const monday = document.getElementById("monday").value.replace(/\n/g, " ");
+    const tuesday = document.getElementById("tuesday").value.replace(/\n/g, " ");
+    const wednesday = document.getElementById("wednesday").value.replace(/\n/g, " ");
+    const thursday = document.getElementById("thursday").value.replace(/\n/g, " ");
+    const friday = document.getElementById("friday").value.replace(/\n/g, " ");
 
     try {
       const [pdfBytes, notoFontBytes] = await Promise.all([
@@ -142,27 +145,25 @@
 
       const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
       pdfDoc.registerFontkit(fontkit);
-
-      const notoFont = await pdfDoc.embedFont(notoFontBytes); // Marathi font
-      const standardFont = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);; // Default English
+      const notoFont = await pdfDoc.embedFont(notoFontBytes);
 
       const page = pdfDoc.getPages()[0];
 
-      // Draw combined dates
+      // Draw date range
       page.drawText(`${fromdate}           ${todate}`, {
         x: 100,
         y: 490,
         size: 12,
-        font: standardFont,
+        font: notoFont,
         color: PDFLib.rgb(0, 0, 0)
       });
 
-      // Draw weekday text (English, wrapped)
-      drawWrappedText(page, `${monday}`, 100, 450, 100, 18, standardFont, 12, PDFLib.rgb(0, 0, 0));
-      drawWrappedText(page, `${tuesday}`, 100, 400, 100, 18, standardFont, 12, PDFLib.rgb(0, 0, 0));
-      drawWrappedText(page, `${wednesday}`, 100, 350, 100, 18, standardFont, 12, PDFLib.rgb(0, 0, 0));
-      drawWrappedText(page, `${thursday}`, 100, 300, 100, 18, standardFont, 12, PDFLib.rgb(0, 0, 0));
-      drawWrappedText(page, `${friday}`, 100, 250, 100, 18, standardFont, 12, PDFLib.rgb(0, 0, 0));
+      // Draw weekday content (wrapped)
+      drawWrappedText(page, monday, 150, 370, 220, 14, notoFont, 10, PDFLib.rgb(0, 0, 0));
+      drawWrappedText(page, tuesday, 150, 335, 220, 14, notoFont, 10, PDFLib.rgb(0, 0, 0));
+      drawWrappedText(page, wednesday, 150, 300, 220, 14, notoFont, 10, PDFLib.rgb(0, 0, 0));
+      drawWrappedText(page, thursday, 150, 262, 220, 14, notoFont, 10, PDFLib.rgb(0, 0, 0));
+      drawWrappedText(page, friday, 150, 225, 220, 14, notoFont, 10, PDFLib.rgb(0, 0, 0));
 
       // Draw current Marathi date
       const now = new Date();
@@ -171,12 +172,14 @@
         date.getDate().toString().padStart(2, '0').split('').map(d => marathiDigits[d] || d).join('') + ' ' +
         ['जानेवारी','फेब्रुवारी','मार्च','एप्रिल','मे','जून','जुलै','ऑगस्ट','सप्टेंबर','ऑक्टोबर','नोव्हेंबर','डिसेंबर'][date.getMonth()] + ' ' +
         date.getFullYear().toString().split('').map(d => marathiDigits[d] || d).join('');
+
       const currentDate = formatDateMarathi(now);
 
-      page.drawText(`${currentDate}`, {
+      page.drawText(currentDate, {
         x: 115, y: 82, size: 12, font: notoFont, color: PDFLib.rgb(0, 0, 0)
       });
 
+      // Export and download the new PDF
       const finalPdfBytes = await pdfDoc.save();
       const blob = new Blob([finalPdfBytes], { type: 'application/pdf' });
       const link = document.createElement('a');
