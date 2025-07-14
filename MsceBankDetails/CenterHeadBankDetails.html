@@ -1,3 +1,63 @@
+
+<html lang="en">
+
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bank Details</title>
+    <link href="assets/imgs/LOGOVIKASWHITE.svg" rel="shortcut icon" type="image/x-icon" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/caedfdc778.js" crossorigin="anonymous"></script>
+    <script>
+        function strikeThroughText(event) {
+            event.preventDefault(); 
+            event.target.classList.toggle("strikethrough"); 
+        }
+    </script>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 text-center">
+
+                <div class="d-flex align-items-center">
+                    <img src="assets/imgs/mscemain.png" alt="MainLogo" height="150" width="150" class="mt-4" />
+
+                    <div class="ml-2 mt-2">
+                        <div class=" text-black fs-5 fw-bold mt-4">
+                            <span class="fw-bolder">महाराष्ट्र राज्य परीक्षा परिषद, पुणे
+                                <br />
+                                MAHARASHTRA STATE COUNCIL OF EXAMINATION,PUNE
+                                <br />
+                                 GCC-Computer Shorthand Exam 
+                                <br>June-2025
+                            </span>
+                        </div>
+                    </div>
+                    <img src="assets/imgs/logo2.png" alt="MainLogo" height="120" width="100" class="mt-4" />
+                </div>
+            </div>
+
+            <div class="col-md-1"></div>
+            <div class="col-md-3 mt-2">
+                <div class="text-end">
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <hr class="border border-danger border-1 opacity-75">
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         if (document.referrer.indexOf(window.location.origin) === -1) {
@@ -6,3 +66,215 @@
         }
     });
 </script>
+<!-- Script End of Redirect-->
+
+<!--Dropdowns-->
+<script>
+    let xmlData;
+
+    window.onload = function () {
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", "centers.xml", true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          xmlData = xhr.responseXML;
+          populateDistricts();
+        }
+      };
+      xhr.send();
+    };
+
+    function populateDistricts() {
+      const districtSelect = document.getElementById("district");
+      const districts = xmlData.getElementsByTagName("district");
+
+      for (let i = 0; i < districts.length; i++) {
+        const name = districts[i].getAttribute("name");
+        const option = document.createElement("option");
+        option.value = name;
+        option.textContent = name;
+        districtSelect.appendChild(option);
+      }
+    }
+
+    function updateCenters() {
+      const selectedDistrict = document.getElementById("district").value;
+      const centerSelect = document.getElementById("center");
+      centerSelect.innerHTML = "<option>-- Select Center --</option>";
+
+      const districts = xmlData.getElementsByTagName("district");
+
+      for (let i = 0; i < districts.length; i++) {
+        if (districts[i].getAttribute("name") === selectedDistrict) {
+          const centers = districts[i].getElementsByTagName("center");
+          for (let j = 0; j < centers.length; j++) {
+            const code = centers[j].getAttribute("code");
+            const name = centers[j].textContent;
+
+            const option = document.createElement("option");
+            option.value = code;
+            option.textContent = `${code} - ${name}`;
+            centerSelect.appendChild(option);
+          }
+        }
+      }
+    }
+  </script>
+<!--Dropdowns-->
+<div class="container-fluid mt-2">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <p class="text-center fs-4 fw-bold">
+              केंद्रप्रमुख बँक तपशील
+            </p>
+        </div>
+    </div>
+</div>
+<hr class="border border-1 border-success"> 
+    <p class="fw-bold text-danger text-center">Please Fill all information In English only.<br> 
+कृपया सर्व माहिती इंग्रजीत भरा.</p>
+    <hr class="border border-1 border-danger"> 
+ <form id="dataForm" class="row g-3" onsubmit="return validateForm()">
+    <input type="hidden" id="rowId">
+  <div class="row mt-3">
+        <div class="col-md-6 form-group">
+            <label class="fw-bold">District:</label>
+            <select id="district" class="form-select" onchange="updateCenters()" required>
+                <option selected disabled >-- Select District --</option>
+            </select>
+        </div>
+
+        <div class="col-md-6 form-group">
+            <label class="fw-bold">Center:</label>
+            <select id="center" class="form-select" required>
+                <option selected disabled >-- Select Center --</option>
+            </select>
+        </div>
+    </div>
+  <hr class="border border-1 border-primary"> 
+    <div class="row">
+         <div class="col-md-4 form-group">
+            <label class="fw-bold">Bank Account Holder Name(खातेधारकाचे नाव):</label>
+            <input type="text" id="bankacctholdername" class="form-control" placeholder="Bank Account Holder Name(खातेधारकाचे नाव)" required>
+        </div>
+        <div class="col-md-4 form-group">
+            <label class="fw-bold">Bank Account Number(बँक खाते क्रमांक):</label>
+            <input type="text" id="bankacctno" class="form-control" placeholder="Bank Account Number(बँक खाते क्रमांक)" required>
+        </div>
+        <div class="col-md-4 form-group"> 
+            <label class="fw-bold">BANK IFSC CODE(बँक IFSC CODE):</label>
+            <input type="text" id="bankifsc" class="form-control" placeholder="Bank Account Number(बँक खाते क्रमांक)" required>
+        </div>
+    </div>
+<hr class="border border-1 border-primary"> 
+  <div class="row mt-3">
+        <div class="col-md-6 form-group">
+           <label class="fw-bold">BANK Name(बँकचे नाव):</label>
+            <input type="text" id="bankname" class="form-control" placeholder="BANK Name(बँकचे नाव)" required>
+       
+        </div>
+
+        <div class="col-md-6 form-group">
+            <label class="fw-bold">BANK Branch(बँक शाखा):</label>
+            <input type="text" id="bankbranch" class="form-control" placeholder="BANK Branch(बँक शाखा)" required>
+       
+        </div>
+    </div>
+
+    <hr class="border border-1 border-primary"> 
+
+   <div class="row text-center mt-4">
+    <div class="col-md-2"></div>
+    <!-- Back Button -->
+    <div class="col-md-4">
+        <button type="button" onclick="window.location.href='https://vikaspawar.space/mscebankdetails/index.html'" class="btn btn-danger w-100">
+            ← Back
+        </button>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="col-md-4">
+        <button type="submit" class="btn btn-success w-100">
+            Submit
+        </button>
+    </div>
+        <div class="col-md-2"></div>
+</div>
+
+</form>
+
+
+
+    <hr class="border border-danger border-1 opacity-75">
+
+
+    <footer class="footer">
+        <div class="container-fluid mt-2">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="text-center">
+                        Copyright &copy; 2024-25
+                        <br />
+                        <img src="assets/imgs/LOGOVIKAS.svg" alt="Logo 1" style="height: 55px;" />
+                        <br />
+                        Developed and Maintained by:
+                        VIKAS PAWAR.<br />
+                       
+                        All Rights Reserved.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+     <script>
+
+const scriptURL = "https://sheetdb.io/api/v1/bogkmk60lg3mo";
+
+document.getElementById("dataForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    document.getElementById("rowId").value = "ID-" + Date.now();
+
+    const formData = {
+        rowId: document.getElementById("rowId").value,
+        district: document.getElementById("district").value,
+        center: document.getElementById("center").options[
+            document.getElementById("center").selectedIndex
+        ].text, // Full center name (e.g., "001 - Pune")
+        bankacctholdername: document.getElementById("bankacctholdername").value,
+        bankacctno: document.getElementById("bankacctno").value,
+        bankifsc: document.getElementById("bankifsc").value,
+        bankname: document.getElementById("bankname").value,
+        bankbranch: document.getElementById("bankbranch").value,
+        timestamp: new Date().toLocaleString()  // ✅ Add timestamp here
+    };
+
+    fetch(scriptURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ data: formData })
+    })
+    .then(() => {
+        alert("✅ Data submitted successfully!");
+        document.getElementById("dataForm").reset();
+    })
+    .catch(error => {
+        console.error("❌ Error submitting form:", error);
+        alert("Something went wrong. Try again.");
+    });
+});
+
+</script>
+
+
+
+
+</body>
+
+</html>
+
+
